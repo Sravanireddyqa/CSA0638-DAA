@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_ITEMS 100
+#define MAX_CONTAINERS 100
+void sortItems(int items[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (items[j] < items[j + 1]) {
+                int temp = items[j];
+                items[j] = items[j + 1];
+                items[j + 1] = temp;
+            }
+        }
+    }
+}
+int computeContainers(int items[], int n, int capacity) {
+    int containers[MAX_CONTAINERS] = {0}; 
+    int numContainers = 0; // Number of containers used
+     for (int i = 0; i < n; i++) {
+        int j;
+        for (j = 0; j < numContainers; j++) {
+            if (containers[j] + items[i] <= capacity) {
+                containers[j] += items[i];
+                break;
+            }
+        }
+        if (j == numContainers) {
+            containers[numContainers++] = items[i];
+        }
+    }
+
+    return numContainers;
+}
+
+int main() {
+    int items[MAX_ITEMS];
+    int n, capacity;
+    printf("Enter the number of items: ");
+    scanf("%d", &n);
+    printf("Enter the weights of the items:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &items[i]);
+    }
+    printf("Enter the capacity of the containers: ");
+    scanf("%d", &capacity);
+    sortItems(items, n);
+    int numContainers = computeContainers(items, n, capacity);
+    printf("Minimum number of containers required: %d\n", numContainers);
+
+    return 0;
+}
+Output:
+Enter the number of items: 5
+Enter the weights of the items:
+10
+8
+6
+7
+9
+Enter the capacity of the containers: 15
+Minimum number of containers required: 4
