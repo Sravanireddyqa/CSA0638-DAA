@@ -1,0 +1,32 @@
+#include <stdio.h>
+void printLine(int num, int width) 
+{
+    if (width == 0) 
+        return;
+    printf("%d", num);
+    printLine(num, width - 1); 
+}
+void printPattern(int n)
+ {
+    if (n == 0) 
+        return;
+    printPattern(n - 1); 
+    printLine(n, n); 
+    printf("\n"); 
+}
+int main()
+ {
+    int rows;
+    printf("Enter the number of rows: ");
+    scanf("%d", &rows);
+
+    printPattern(rows);
+
+    return 0;
+}
+Output:
+Enter the number of rows: 4
+1
+22
+333
+4444
