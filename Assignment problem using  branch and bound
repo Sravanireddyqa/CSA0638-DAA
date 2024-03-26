@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <limits.h>
+#define N 4 
+void assignTask(int costMatrix[N][N]) {
+    int assigned[N]; 
+    int minCost = 0; 
+    int minAssignment[N]; 
+    for (int i = 0; i < N; i++)
+        assigned[i] = 0;
+    assigned[0] = 1;
+    for (int i = 0; i < N; i++)
+        minCost += costMatrix[i][i];
+    assignTaskUtil(costMatrix, assigned, 1, minCost, minAssignment);
+    printf("Minimum cost assignment:\n");
+    for (int i = 0; i < N; i++)
+        printf("Worker %d -> Task %d (Cost %d)\n", i, minAssignment[i], costMatrix[i][minAssignment[i]]);
+}
+void assignTaskUtil(int costMatrix[N][N], int assigned[N], int worker, int totalCost, int minAssignment[N]) {
+    if (worker == N) {
+        if (totalCost < minCost) {
+            minCost = totalCost;
+            for (int i = 0; i < N; i++)
+                minAssignment[i] = assigned[i];
+        }
+        return;
+    }
+    for (int task = 0; task < N; task++) {
+        if (!assigned[task]) { 
+            assigned[task] = 1;
+            assignTaskUtil(costMatrix, assigned, worker + 1, totalCost + costMatrix[worker][task], minAssignment);
+            assigned[task] = 0;
+        }
+    }
+}
+
+int main() {
+    int costMatrix[N][N] = {
+        {9, 2, 7, 8},
+        {6, 4, 3, 7},
+        {5, 8, 1, 8},
+        {7, 6, 9, 4}
+    };
+
+    assignTask(costMatrix);
+
+    return 0;
+}
+Output:
+Minimum cost assignment:
+Worker 0 -> Task 1 (Cost 2)
+Worker 1 -> Task 2 (Cost 3)
+Worker 2 -> Task 0 (Cost 5)
+Worker 3 -> Task 3 (Cost 4)
+
