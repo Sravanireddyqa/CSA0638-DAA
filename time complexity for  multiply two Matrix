@@ -1,0 +1,49 @@
+#include <stdio.h>
+#define MAX 100
+int set[MAX]; 
+int subset[MAX]; 
+int n; // Number of elements in the set
+int targetSum; 
+void subsetSum(int sum, int index, int total) {
+    if (sum == targetSum) { 
+        printf("{");
+        for (int i = 0; i < index; i++) {
+            printf("%d ", subset[i]);
+        }
+        printf("}\n");
+        return;
+    }
+    if (sum > targetSum || total + sum < targetSum) { 
+        return;
+    }
+    for (int i = index; i < n; i++) {
+        subset[index] = set[i]; 
+        subsetSum(sum + set[i], index + 1, total - set[i]); 
+    }
+}
+
+int main() {
+    printf("Enter the number of elements in the set: ");
+    scanf("%d", &n);
+    printf("Enter the elements of the set:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &set[i]);
+    }
+    printf("Enter the target sum: ");
+    scanf("%d", &targetSum);
+    printf("Subsets with sum equal to %d are:\n", targetSum);
+    subsetSum(0, 0, 0); 
+    return 0;
+}
+Output:
+Enter the number of elements in the set: 4
+Enter the elements of the set:
+1
+2
+3
+4
+Enter the target sum: 5
+Subsets with sum equal to 5 are:
+{1 4 }
+{2 3 }
+
